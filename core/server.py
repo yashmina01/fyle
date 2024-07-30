@@ -1,15 +1,21 @@
-from flask import jsonify
+from flask import jsonify, json, request
 from marshmallow.exceptions import ValidationError
 from core import app
 from core.apis.assignments import student_assignments_resources, teacher_assignments_resources
 from core.libs import helpers
 from core.libs.exceptions import FyleError
 from werkzeug.exceptions import HTTPException
-
 from sqlalchemy.exc import IntegrityError
+
+
+from core.apis.assignments import principal_assignments_resources, principal_teacher_resources
 
 app.register_blueprint(student_assignments_resources, url_prefix='/student')
 app.register_blueprint(teacher_assignments_resources, url_prefix='/teacher')
+
+app.register_blueprint(principal_assignments_resources, url_prefix='/principal/assignment')
+app.register_blueprint(principal_teacher_resources, url_prefix='/principal/teacher')
+
 
 
 @app.route('/')
@@ -20,6 +26,12 @@ def ready():
     })
 
     return response
+
+@app.route('/principal/assignments', methods=['GET'])
+def get_principal_assignments():
+    principal_id = json.loads(request.headers.get('X-Principal'))["principal_id"]
+
+    all_assignment = student_assignments_resources.get
 
 
 @app.errorhandler(Exception)
