@@ -1,6 +1,8 @@
 from core import db
 from core.libs import helpers
 
+from core.libs import assertions
+from core.models.principals import Principal
 
 class Teacher(db.Model):
     __tablename__ = 'teachers'
@@ -11,3 +13,14 @@ class Teacher(db.Model):
 
     def __repr__(self):
         return '<Teacher %r>' % self.id
+
+    @classmethod
+    def get_teacher_by_id(cls, teacher_id,user_id):
+        return cls.query.filter_by(id=teacher_id,user_id=user_id).first()
+
+    @classmethod
+    def get_all_teachers(cls, teacher_id, user_id):
+        """List of teachers"""
+        principal = Teacher.get_teacher_by_id(teacher_id, user_id)
+        assertions.assert_auth(Teacher is not None, "Provided user is not a valid principal")
+        return cls.query.all()

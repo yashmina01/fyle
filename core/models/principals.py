@@ -14,4 +14,4 @@ class Principal(db.Model):
     
     @classmethod
     def get_principal_by_id(cls, principal_id,user_id):
-        return cls.query.filter_by(id=principal_id,user_id=user_id).first
+        return cls.query.filter_by(id=principal_id,user_id=user_id).first()
