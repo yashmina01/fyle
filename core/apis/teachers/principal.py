@@ -5,11 +5,11 @@ from core.apis.responses import APIResponse
 from core.models.teachers import Teacher
 from .schema import TeacherSchema
 
-from .schema import 
+from .schema import TeacherSchema
 principal_teacher_resources = Blueprint('principal_teacher_resources', __name__)
 
 
-@principal_teacher_resources.route('/', method=['GET'], strict_slashes=False)
+@principal_teacher_resources.route('/', methods=['GET'], strict_slashes=False)
 @decorators.authenticate_principal
 def list_teachers(p):
     """list of all teachers"""

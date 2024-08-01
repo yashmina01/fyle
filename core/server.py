@@ -7,13 +7,13 @@ from core.libs.exceptions import FyleError
 from werkzeug.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
 
-# from core.apis.teachers import principal_teacher_resources
+from core.apis.teachers import principal_teacher_resources
 
 app.register_blueprint(student_assignments_resources, url_prefix='/student')
 app.register_blueprint(teacher_assignments_resources, url_prefix='/teacher')
 
 app.register_blueprint(principal_assignments_resources, url_prefix='/principal/assignment')
-# app.register_blueprint(principal_teacher_resources, url_prefix='/principal/teacher')
+app.register_blueprint(principal_teacher_resources, url_prefix='/principal/teacher')
 
 
 
@@ -25,13 +25,6 @@ def ready():
     })
 
     return response
-
-@app.route('/principal/assignments', methods=['GET'])
-def get_principal_assignments():
-    principal_id = json.loads(request.headers.get('X-Principal'))["principal_id"]
-
-    all_assignment = student_assignments_resources.get
-
 
 @app.errorhandler(Exception)
 def handle_error(err):

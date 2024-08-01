@@ -9,6 +9,7 @@ def test_get_assignments_teacher_1(client, h_teacher_1):
     data = response.json['data']
     for assignment in data:
         assert assignment['teacher_id'] == 1
+        assert assignment['state'] in ['SUBMITTED', 'GRADED']
 
 
 def test_get_assignments_teacher_2(client, h_teacher_2):

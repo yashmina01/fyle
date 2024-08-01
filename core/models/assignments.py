@@ -14,10 +14,6 @@ class GradeEnum(str, enum.Enum):
     C = 'C'
     D = 'D'
 
-    @classmethod
-    def is_valid_grade(cls, grade):
-        return grade in [g.value for g in cls]
-
 
 class AssignmentStateEnum(str, enum.Enum):
     DRAFT = 'DRAFT'
@@ -85,7 +81,7 @@ class Assignment(db.Model):
         assignment = Assignment.get_by_id(_id)
         assertions.assert_found(assignment, 'No assignment with this id was found')
         assertions.assert_valid(grade is not None, 'assignment with empty grade cannot be graded')
-        assertions.assert_valid(GradeEnum.is_valid_grade(assignment.grade), 'Assignment is graded incorrectly')
+        assertions.assert_valid(grade in [g.value for g in GradeEnum], 'grade must be one of A, B, C, D')
 
 
         assignment.state = AssignmentStateEnum.GRADED
