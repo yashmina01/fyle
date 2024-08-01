@@ -80,10 +80,19 @@ class Assignment(db.Model):
     def mark_grade(cls, _id, grade, auth_principal: AuthPrincipal):
         assignment = Assignment.get_by_id(_id)
         assertions.assert_found(assignment, 'No assignment with this id was found')
+        assertions.assert_valid(assignment.teacher_id is not None, 'Teacher must assign before assignment get graded')
         assertions.assert_valid(grade is not None, 'assignment with empty grade cannot be graded')
         assertions.assert_valid(grade in [g.value for g in GradeEnum], 'grade must be one of A, B, C, D')
 
+        if(auth_principal.teacher_id is not None):
+            teacher = Teacher.get_teacher_by_id(auth_principal.teacher_id, auth_principal.user_id)
+            assertions.assert_found(teacher, 'Provided user id and teacher id is invalid, doesn\'t belong to any teacher')
+            assertions.assert_valid(assignment.teacher_id == auth_principal.teacher_id, 'Assignment cannot be graded by provided teacher')
+        else:
+            principal = Principal.get_principal_by_id(auth_principal.principal_id, auth_principal.user_id)
+            assertions.assert_found(principal, 'Provided user id and principal id is invalidl, doesn\'t belong to any principal')
 
+        assignment.grade = grade
         assignment.state = AssignmentStateEnum.GRADED
         db.session.flush()
 
