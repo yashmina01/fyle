@@ -19,8 +19,8 @@ class Teacher(db.Model):
         return cls.query.filter_by(id=teacher_id,user_id=user_id).first()
 
     @classmethod
-    def get_all_teachers(cls, teacher_id, user_id):
+    def get_all_teachers(cls, principal_id, user_id):
         """List of teachers"""
-        principal = Teacher.get_teacher_by_id(teacher_id, user_id)
+        principal = Principal.get_user_by_id(principal_id, user_id)
         assertions.assert_auth(Teacher is not None, "Provided user is not a valid principal")
         return cls.query.all()
