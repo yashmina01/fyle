@@ -85,11 +85,11 @@ class Assignment(db.Model):
         assertions.assert_valid(grade in [g.value for g in GradeEnum], 'grade must be one of A, B, C, D')
 
         if(auth_principal.teacher_id is not None):
-            teacher = Teacher.get_teacher_by_id(auth_principal.teacher_id, auth_principal.user_id)
+            teacher = Teacher.get_user_by_id(auth_principal.teacher_id, auth_principal.user_id)
             assertions.assert_found(teacher, 'Provided user id and teacher id is invalid, doesn\'t belong to any teacher')
             assertions.assert_valid(assignment.teacher_id == auth_principal.teacher_id, 'Assignment cannot be graded by provided teacher')
         else:
-            principal = Principal.get_principal_by_id(auth_principal.principal_id, auth_principal.user_id)
+            principal = Principal.get_user_by_id(auth_principal.principal_id, auth_principal.user_id)
             assertions.assert_found(principal, 'Provided user id and principal id is invalidl, doesn\'t belong to any principal')
 
         assignment.grade = grade
@@ -109,6 +109,6 @@ class Assignment(db.Model):
     @classmethod
     def get_all_assignments(cls, principal_id, user_id):
         """List of assignment which are graded and submited"""
-        principal = Principal.get_principal_by_id(principal_id, user_id)
+        principal = Principal.get_user_by_id(principal_id, user_id)
         assertions.assert_auth(principal is not None, "Provided user is not a valid principal")
         return cls.filter(cls.state in [AssignmentStateEnum.SUBMITTED, AssignmentStateEnum.GRADED]).all()

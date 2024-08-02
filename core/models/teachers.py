@@ -15,7 +15,7 @@ class Teacher(db.Model):
         return '<Teacher %r>' % self.id
 
     @classmethod
-    def get_teacher_by_id(cls, teacher_id,user_id):
+    def get_user_by_id(cls, teacher_id,user_id):
         return cls.query.filter_by(id=teacher_id,user_id=user_id).first()
 
     @classmethod

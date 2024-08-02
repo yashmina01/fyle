@@ -12,7 +12,7 @@ from core.apis.teachers import principal_teacher_resources
 app.register_blueprint(student_assignments_resources, url_prefix='/student')
 app.register_blueprint(teacher_assignments_resources, url_prefix='/teacher')
 
-app.register_blueprint(principal_assignments_resources, url_prefix='/principal/assignment')
+app.register_blueprint(principal_assignments_resources, url_prefix='/principal/assignments')
 app.register_blueprint(principal_teacher_resources, url_prefix='/principal/teacher')
 
 
