@@ -5,7 +5,7 @@ from core.apis.responses import APIResponse
 from core.models.teachers import Teacher
 from .schema import TeacherSchema
 
-from .schema import TeacherSchema
+
 principal_teacher_resources = Blueprint('principal_teacher_resources', __name__)
 
 

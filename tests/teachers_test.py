@@ -117,3 +117,12 @@ def test_grade_assignment_submitted(client, h_teacher_1):
     assert data['data']['teacher_id'] == 1
     assert data['data']['grade'] == 'B'
     assert data['data']['state'] == 'GRADED'
+
+def test_get_all_teachers_with_teacher(client, h_teacher_1):
+    '''Failure case: A teacher should not be able to view all the teachers'''
+    response = client.get(
+        '/principal/teachers',
+        headers=h_teacher_1
+    )
+
+    assert response.status_code == 404
