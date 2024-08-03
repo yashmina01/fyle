@@ -71,3 +71,16 @@ def test_assingment_resubmitt_error(client, h_student_1):
     assert response.status_code == 400
     assert error_response['error'] == 'FyleError'
     assert error_response["message"] == 'only Assignments which are in draft state can be submitted !'
+
+def test_grade_assignment_no_teacher(client, h_student_1):
+    response = client.post(
+        '/student/assignments/',
+        headers=h_student_1,
+        json={
+            'id': 1,
+            'teacher_id': None
+        }
+    )
+    assert response.status_code == 400
+    data = response.json
+    assert data['error'] == 'FyleError'
